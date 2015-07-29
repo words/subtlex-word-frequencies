@@ -1,0 +1,31 @@
+{
+  "name": "subtlex-word-frequencies",
+  "version": "1.0.0",
+  "description": "A list of words from the SUBTLEX movie subtitles corpus, sorted by frequency.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js",
+    "test": "standard --format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeke/subtlex-word-frequencies.git"
+  },
+  "keywords": [
+    "subtlex",
+    "words",
+    "language"
+  ],
+  "author": "zeke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zeke/subtlex-word-frequencies/issues"
+  },
+  "homepage": "https://github.com/zeke/subtlex-word-frequencies#readme",
+  "dependencies": {
+    "lodash": "^3.10.0"
+  },
+  "devDependencies": {
+    "standard": "^4.5.4"
+  }
+}
