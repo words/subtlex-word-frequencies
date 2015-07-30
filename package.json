@@ -1,10 +1,12 @@
 {
   "name": "subtlex-word-frequencies",
   "version": "1.0.0",
-  "description": "A list of words from the SUBTLEX movie subtitles corpus, sorted by frequency.",
-  "main": "index.js",
+  "description": "An array of over 200,000 words sorted by frequency of use in spoken English.",
+  "main": "words.json",
   "scripts": {
-    "build": "node index.js",
+    "download": "curl http://subtlexus.lexique.org/corpus/Subtlex%20US.rar",
+    "unpack": "extract Subtlex%20US.rar",
+    "build": "node build.js > words.json",
     "test": "standard --format"
   },
   "repository": {
@@ -22,10 +24,11 @@
     "url": "https://github.com/zeke/subtlex-word-frequencies/issues"
   },
   "homepage": "https://github.com/zeke/subtlex-word-frequencies#readme",
-  "dependencies": {
-    "lodash": "^3.10.0"
-  },
   "devDependencies": {
+    "lodash": "^3.10.0",
+    "split2": "^1.0.0",
+    "through2": "^2.0.0",
+    "extract": "^1.0.0",
     "standard": "^4.5.4"
   }
 }
