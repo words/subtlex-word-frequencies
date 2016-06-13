@@ -1,4 +1,4 @@
-const words = require('./')
+const words = require('.')
 
 console.log(words.length)
 // 200182
