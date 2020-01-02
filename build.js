@@ -3,7 +3,7 @@ const through = require('through2')
 const split = require('split2')
 const sortBy = require('lodash').sortBy
 
-var counts = {}
+var counts = Object.create(null);
 var words = []
 var count = 0
 
@@ -16,7 +16,7 @@ var countStream = through(function (line, enc, next) {
   var words = line.match(/[\w']+/g)
   if (!words) return next()
   words.forEach(function (word) {
-    counts[word] = counts[word] ? counts[word] + 1 : 1
+    counts[word] = counts.hasOwnProperty(word) ? 1 + counts[word] : 1
   })
   next()
 })
