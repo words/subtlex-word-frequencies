@@ -3,7 +3,7 @@ const through = require('through2')
 const split = require('split2')
 const sortBy = require('lodash').sortBy
 
-var counts = Object.create(null);
+var counts = {};
 var words = []
 var count = 0
 
