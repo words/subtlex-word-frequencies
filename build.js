@@ -68,7 +68,7 @@ function onconcat(buf) {
 }
 
 function map(d) {
-  return {word: d.Word, count: d.FREQcount}
+  return {word: d.Word, count: Number(d.FREQcount)}
 }
 
 function sort(a, b) {
