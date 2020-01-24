@@ -7,14 +7,15 @@ var dsv = require('d3-dsv')
 var bail = require('bail')
 
 // See: http://crr.ugent.be/programs-data/subtitle-frequencies
-var endpoint = 'https://www.ugent.be/pp/experimentele-psychologie/en/research/documents/subtlexus/subtlexus2.zip/at_download/file'
+var endpoint =
+  'https://www.ugent.be/pp/experimentele-psychologie/en/research/documents/subtlexus/subtlexus2.zip/at_download/file'
 
 // Name in archive.
 var name = 'SUBTLEXus74286wordstextversion.txt'
 
-https
-  .request(endpoint, onrequest)
-  .end()
+var found = false
+
+https.request(endpoint, onrequest).end()
 
 function onrequest(res) {
   res
@@ -62,7 +63,10 @@ function onend() {
 }
 
 function onconcat(buf) {
-  var data = dsv.tsvParse(String(buf)).map(map).sort(sort)
+  var data = dsv
+    .tsvParse(String(buf))
+    .map(map)
+    .sort(sort)
 
   fs.writeFile('index.json', JSON.stringify(data, null, 2) + '\n', bail)
 }

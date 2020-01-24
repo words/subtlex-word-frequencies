@@ -1,32 +1,60 @@
 {
   "name": "subtlex-word-frequencies",
   "version": "1.0.0",
-  "description": "An array of over 200,000 words sorted by frequency of use in spoken English.",
-  "main": "index.json",
-  "scripts": {
-    "build": "node build",
-    "test": "standard --format"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zeke/subtlex-word-frequencies.git"
-  },
+  "description": "List of 74,286 words sorted by frequency of use in spoken English",
+  "license": "MIT",
   "keywords": [
     "subtlex",
+    "subtitle",
     "words",
-    "language"
+    "language",
+    "frequency"
   ],
-  "author": "zeke",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zeke/subtlex-word-frequencies/issues"
-  },
-  "homepage": "https://github.com/zeke/subtlex-word-frequencies#readme",
+  "repository": "words/subtlex-word-frequencies",
+  "bugs": "https://github.com/words/subtlex-word-frequencies/issues",
+  "author": "Zeke Sikelianos <zeke@sikelianos.com> (http://zeke.sikelianos.com)",
+  "contributors": [
+    "Zeke Sikelianos <zeke@sikelianos.com> (http://zeke.sikelianos.com)",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
+  ],
+  "main": "index.json",
+  "files": [
+    "index.json"
+  ],
+  "dependencies": {},
   "devDependencies": {
     "bail": "^1.0.0",
     "concat-stream": "^2.0.0",
     "d3-dsv": "^1.0.0",
-    "standard": "^4.5.4",
+    "prettier": "^1.0.0",
+    "remark-cli": "^7.0.0",
+    "remark-preset-wooorm": "^6.0.0",
+    "tape": "^4.0.0",
+    "unified": "^8.0.0",
+    "xo": "^0.25.0",
     "yauzl": "^2.10.0"
+  },
+  "scripts": {
+    "generate": "node build",
+    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
+    "test-api": "node test",
+    "test": "npm run format && npm run test-api"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm"
+    ]
   }
 }
