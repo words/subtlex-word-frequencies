@@ -2,11 +2,9 @@
   "name": "subtlex-word-frequencies",
   "version": "1.0.0",
   "description": "An array of over 200,000 words sorted by frequency of use in spoken English.",
-  "main": "words.json",
+  "main": "index.json",
   "scripts": {
-    "download": "curl http://subtlexus.lexique.org/corpus/Subtlex%20US.rar",
-    "unpack": "extract Subtlex%20US.rar",
-    "build": "node build.js > words.json",
+    "build": "node build",
     "test": "standard --format"
   },
   "repository": {
@@ -25,10 +23,10 @@
   },
   "homepage": "https://github.com/zeke/subtlex-word-frequencies#readme",
   "devDependencies": {
-    "lodash": "^3.10.0",
-    "split2": "^1.0.0",
-    "through2": "^2.0.0",
-    "extract": "^1.0.0",
-    "standard": "^4.5.4"
+    "bail": "^1.0.0",
+    "concat-stream": "^2.0.0",
+    "d3-dsv": "^1.0.0",
+    "standard": "^4.5.4",
+    "yauzl": "^2.10.0"
   }
 }

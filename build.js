@@ -1,40 +1,80 @@
-const fs = require('fs')
-const through = require('through2')
-const split = require('split2')
-const sortBy = require('lodash').sortBy
+var fs = require('fs')
+var path = require('path')
+var https = require('https')
+var concat = require('concat-stream')
+var yauzl = require('yauzl')
+var dsv = require('d3-dsv')
+var bail = require('bail')
 
-var counts = {}
-var words = []
-var count = 0
+// See: http://crr.ugent.be/programs-data/subtitle-frequencies
+var endpoint = 'https://www.ugent.be/pp/experimentele-psychologie/en/research/documents/subtlexus/subtlexus2.zip/at_download/file'
 
-// Tally up instances of each word in the corpus
-var readStream = fs.createReadStream('./data/full.txt')
+// Name in archive.
+var name = 'SUBTLEXus74286wordstextversion.txt'
 
-var countStream = through(function (line, enc, next) {
-  if (++count % 10000 === 0) process.stderr.write(String(count) + '\n')
-  line = line.toString().toLowerCase()
-  var words = line.match(/[\w']+/g)
-  if (!words) return next()
-  words.forEach(function (word) {
-    counts[word] = counts[word] ? counts[word] + 1 : 1
-  })
-  next()
-})
+https
+  .request(endpoint, onrequest)
+  .end()
 
-readStream
-  .pipe(split())
-  .pipe(countStream)
+function onrequest(res) {
+  res
+    .pipe(fs.createWriteStream('archive.zip'))
+    .on('close', onclose)
+    .on('error', bail)
+}
 
-countStream.on('finish', function () {
-  // Create an array of word objects tha can be easily sorted by `count`
-  Object.keys(counts).forEach(function (word) {
-    words.push({
-      word: word,
-      count: counts[word]
-    })
-  })
+function onclose() {
+  yauzl.open('archive.zip', {lazyEntries: true}, onopen)
+}
 
-  words = sortBy(words, 'count').reverse()
+function onopen(err, archive) {
+  bail(err)
 
-  process.stdout.write(JSON.stringify(words, null, 2))
-})
+  read()
+
+  archive.on('entry', onentry)
+  archive.on('end', onend)
+
+  function onentry(entry) {
+    if (path.basename(entry.fileName) !== name) {
+      return read()
+    }
+
+    found = true
+    archive.openReadStream(entry, onreadstream)
+  }
+
+  function onreadstream(err, rs) {
+    bail(err)
+    rs.pipe(concat(onconcat)).on('error', bail)
+    rs.on('end', read)
+  }
+
+  function read() {
+    archive.readEntry()
+  }
+}
+
+function onend() {
+  if (!found) {
+    throw new Error('File not found')
+  }
+}
+
+function onconcat(buf) {
+  var data = dsv.tsvParse(String(buf)).map(map).sort(sort)
+
+  fs.writeFile('index.json', JSON.stringify(data, null, 2) + '\n', bail)
+}
+
+function map(d) {
+  return {word: d.Word, count: d.FREQcount}
+}
+
+function sort(a, b) {
+  return pick(b) - pick(a)
+}
+
+function pick(d) {
+  return d.count
+}
