@@ -2,7 +2,7 @@
   "name": "subtlex-word-frequencies",
   "version": "1.0.0",
   "description": "List of 74,286 words sorted by frequency of use in spoken English",
-  "license": "MIT",
+  "license": "ISC",
   "keywords": [
     "subtlex",
     "subtitle",
