@@ -31,8 +31,8 @@
     "remark-preset-wooorm": "^6.0.0",
     "tape": "^4.0.0",
     "unified": "^8.0.0",
-    "xo": "^0.25.0",
-    "yauzl": "^2.10.0"
+    "xo": "^0.26.0",
+    "yauzl": "^2.0.0"
   },
   "scripts": {
     "generate": "node build",
